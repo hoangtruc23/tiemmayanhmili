@@ -10,7 +10,10 @@ const nextConfig: NextConfig = {
   images: {
     localPatterns: [
       {
-        pathname: '/api/media/file/**',
+        pathname: '/api/media/file/**', // Giữ nguyên cái này cho Payload CMS
+      },
+      {
+        pathname: '/image/**', // Thêm cái này cho các ảnh trong public/image
       },
     ],
   },
@@ -23,9 +26,9 @@ const nextConfig: NextConfig = {
 
     return webpackConfig
   },
-  turbopack: {
-    root: path.resolve(dirname),
-  },
+  // turbopack: {
+  //   root: path.resolve(dirname),
+  // },
 }
 
 export default withPayload(nextConfig, { devBundleServerPackages: false })
