@@ -20,16 +20,16 @@ export default async function HomePage() {
 
   const fileURL = `vscode://file/${fileURLToPath(import.meta.url)}`
 
-  // Lấy danh sách camera từ Database thông qua Local API của Payload
-  const cameras = await payload.find({
-    collection: 'cameras',
-  })
+  // // Lấy danh sách thiết bị từ Database thông qua Local API của Payload
+  // const devices = await payload.find({
+  //   collection: 'devices',
+  // })
 
   return (
     <div className="home">
       <div className="content">
         <HeroSection />
-        <div className="p-16">
+        <div className="px-4 py-12">
           {/* <Brand /> */}
           <HowItWork />
         </div>

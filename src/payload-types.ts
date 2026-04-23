@@ -69,7 +69,13 @@ export interface Config {
   collections: {
     users: User;
     media: Media;
-    cameras: Camera;
+    brands: Brand;
+    models: Model;
+    devices: Device;
+    bookings: Booking;
+    rentals: Rental;
+    customers: Customer;
+    expenses: Expense;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -79,7 +85,13 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
-    cameras: CamerasSelect<false> | CamerasSelect<true>;
+    brands: BrandsSelect<false> | BrandsSelect<true>;
+    models: ModelsSelect<false> | ModelsSelect<true>;
+    devices: DevicesSelect<false> | DevicesSelect<true>;
+    bookings: BookingsSelect<false> | BookingsSelect<true>;
+    rentals: RentalsSelect<false> | RentalsSelect<true>;
+    customers: CustomersSelect<false> | CustomersSelect<true>;
+    expenses: ExpensesSelect<false> | ExpensesSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -165,17 +177,106 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "cameras".
+ * via the `definition` "brands".
  */
-export interface Camera {
+export interface Brand {
   id: string;
   name: string;
-  brand?: ('DJI' | 'Insta360' | 'Sony') | null;
-  pricePerDay?: number | null;
-  priceBuy?: number | null;
-  status?: ('available' | 'rented' | 'maintenance') | null;
-  service?: ('buy' | 'rent') | null;
+  note?: string | null;
   image?: (string | null) | Media;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "models".
+ */
+export interface Model {
+  id: string;
+  name: string;
+  note?: string | null;
+  image?: (string | null) | Media;
+  pricePerDay?: number | null;
+  isForSale?: boolean | null;
+  isForRent?: boolean | null;
+  brand: string | Brand;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "devices".
+ */
+export interface Device {
+  id: string;
+  model: string | Model;
+  name: string;
+  serialNumber: string;
+  priceBuy?: number | null;
+  priceSale?: number | null;
+  type: 'rental' | 'sale';
+  status?: ('available' | 'rented' | 'maintenance' | 'sold' | 'reserved') | null;
+  note?: string | null;
+  image?: (string | null) | Media;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "bookings".
+ */
+export interface Booking {
+  id: string;
+  name: string;
+  note?: string | null;
+  image?: (string | null) | Media;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "rentals".
+ */
+export interface Rental {
+  id: string;
+  startRental: string;
+  endRental: string;
+  status?: string | null;
+  total?: number | null;
+  note?: string | null;
+  discount?: number | null;
+  imageContract?: (string | null) | Media;
+  customerId?: (string | null) | Customer;
+  deviceIds: (string | Device)[];
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "customers".
+ */
+export interface Customer {
+  id: string;
+  phoneNumber: string;
+  name: string;
+  times?: number | null;
+  identityCard?: string | null;
+  address?: string | null;
+  note?: string | null;
+  image?: (string | null) | Media;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "expenses".
+ */
+export interface Expense {
+  id: string;
+  total: number;
+  description?: string | null;
+  note?: string | null;
+  status?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -212,8 +313,32 @@ export interface PayloadLockedDocument {
         value: string | Media;
       } | null)
     | ({
-        relationTo: 'cameras';
-        value: string | Camera;
+        relationTo: 'brands';
+        value: string | Brand;
+      } | null)
+    | ({
+        relationTo: 'models';
+        value: string | Model;
+      } | null)
+    | ({
+        relationTo: 'devices';
+        value: string | Device;
+      } | null)
+    | ({
+        relationTo: 'bookings';
+        value: string | Booking;
+      } | null)
+    | ({
+        relationTo: 'rentals';
+        value: string | Rental;
+      } | null)
+    | ({
+        relationTo: 'customers';
+        value: string | Customer;
+      } | null)
+    | ({
+        relationTo: 'expenses';
+        value: string | Expense;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -299,16 +424,99 @@ export interface MediaSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "cameras_select".
+ * via the `definition` "brands_select".
  */
-export interface CamerasSelect<T extends boolean = true> {
+export interface BrandsSelect<T extends boolean = true> {
   name?: T;
-  brand?: T;
-  pricePerDay?: T;
-  priceBuy?: T;
-  status?: T;
-  service?: T;
+  note?: T;
   image?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "models_select".
+ */
+export interface ModelsSelect<T extends boolean = true> {
+  name?: T;
+  note?: T;
+  image?: T;
+  pricePerDay?: T;
+  isForSale?: T;
+  isForRent?: T;
+  brand?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "devices_select".
+ */
+export interface DevicesSelect<T extends boolean = true> {
+  model?: T;
+  name?: T;
+  serialNumber?: T;
+  priceBuy?: T;
+  priceSale?: T;
+  type?: T;
+  status?: T;
+  note?: T;
+  image?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "bookings_select".
+ */
+export interface BookingsSelect<T extends boolean = true> {
+  name?: T;
+  note?: T;
+  image?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "rentals_select".
+ */
+export interface RentalsSelect<T extends boolean = true> {
+  startRental?: T;
+  endRental?: T;
+  status?: T;
+  total?: T;
+  note?: T;
+  discount?: T;
+  imageContract?: T;
+  customerId?: T;
+  deviceIds?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "customers_select".
+ */
+export interface CustomersSelect<T extends boolean = true> {
+  phoneNumber?: T;
+  name?: T;
+  times?: T;
+  identityCard?: T;
+  address?: T;
+  note?: T;
+  image?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "expenses_select".
+ */
+export interface ExpensesSelect<T extends boolean = true> {
+  total?: T;
+  description?: T;
+  note?: T;
+  status?: T;
   updatedAt?: T;
   createdAt?: T;
 }

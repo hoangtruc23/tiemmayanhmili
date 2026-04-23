@@ -1,28 +1,28 @@
 import CardCamera from '@/app/(frontend)/(components)/CardCamera'
 import config from '@/payload.config'
 import { getPayload } from 'payload'
+import { motion, AnimatePresence } from 'framer-motion'
 
 async function ShopBuy() {
   const payloadConfig = await config
   const payload = await getPayload({ config: payloadConfig })
 
   // Lấy danh sách camera từ Database thông qua Local API của Payload
-  const cameras = await payload.find({
-    collection: 'cameras',
+  const models = await payload.find({
+    collection: 'models',
     where: {
-      service: {
-        equals: 'buy',
+      isForSale: {
+        equals: true,
       },
     },
   })
-
   return (
     <>
-      <section className="bg-white py-20 px-6 lg:px-12">
+      <section className="bg-white py-10 px-6 lg:px-12">
         <div className="container mx-auto">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
             <div className="space-y-4">
-              <h2 className="text-[#4a3f35] text-4xl md:text-5xl font-black">
+              <h2 className="text-[#4a3f35] text-4xl md:text-4xl font-black">
                 Danh sách <span className="text-[#c0a080]">máy ảnh</span>
               </h2>
               <p className="text-[#8b7355] max-w-md font-medium">
@@ -32,7 +32,7 @@ async function ShopBuy() {
             </div>
 
             {/* Filter đơn giản */}
-            <div className="flex gap-3 overflow-x-auto pb-2">
+            {/* <div className="flex gap-3 overflow-x-auto pb-2">
               {['Tất cả', 'Action Cam', 'Phụ kiện'].map((tab) => (
                 <button
                   key={tab}
@@ -41,17 +41,17 @@ async function ShopBuy() {
                   {tab}
                 </button>
               ))}
-            </div>
+            </div> */}
           </div>
 
           {/* Grid Danh sách máy */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {cameras.docs.map((cam) => (
-              <CardCamera item={cam} type="bán" key={cam.id} />
+          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-5 gap-3 md:gap-8">
+            {models.docs.map((model) => (
+              <CardCamera item={model} type="bán" key={model.id} />
             ))}
           </div>
 
-          <div className="mt-16 text-center">
+          {/* <div className="mt-16 text-center">
             <button className="inline-flex items-center gap-2 text-[#4a3f35] font-bold border-b-2 border-[#c0a080] pb-1 hover:text-[#c0a080] transition-colors">
               Xem toàn bộ thiết bị
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -63,7 +63,7 @@ async function ShopBuy() {
                 />
               </svg>
             </button>
-          </div>
+          </div> */}
         </div>
       </section>
     </>

@@ -37,10 +37,10 @@ const STEPS = [
 
 const HowItWork = () => {
   return (
-    <section className="py-12 bg-[#fdfaf6]">
+    <section className="">
       <div className="container mx-auto px-6">
         {/* Tiêu đề Section */}
-        <div className="text-center mb-20">
+        <div className="text-center mb-5">
           <span className="text-[11px] font-bold tracking-[0.2em] uppercase text-[#c0a080] mb-3 block">
             Đơn giản & Minh bạch
           </span>
@@ -51,48 +51,28 @@ const HowItWork = () => {
         </div>
 
         {/* Quy trình - Desktop Timeline */}
-        <div className="relative">
-          {/* Đường kẻ nối giữa các bước (Chỉ hiện trên Desktop) */}
-          <div className="absolute top-[45px] left-0 w-full h-[2px] bg-[#eddfc8] z-0 hidden lg:block"></div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-12 relative z-10">
+        <div className="max-w-3xl mx-auto py-6">
+          <div className="relative space-y-8 before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:ml-[8.75rem] md:before:translate-x-0 before:h-full before:w-0.5 before:bg-[#eddfc8]">
             {STEPS.map((step, index) => (
-              <div key={step.id} className="group flex flex-col items-center text-center">
-                {/* Icon Circle */}
-                <div className="relative mb-8">
-                  <div className="w-[90px] h-[90px] rounded-[30px] bg-white border-2 border-[#eddfc8] flex items-center justify-center text-[#4a3f35] shadow-sm group-hover:bg-[#4a3f35] group-hover:text-white group-hover:border-[#4a3f35] transition-all duration-500 rotate-3 group-hover:rotate-0">
-                    {step.icon}
-                  </div>
-                  {/* Số thứ tự nhỏ */}
-                  <span className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-[#eddfc8] text-[#8b7355] text-xs font-black flex items-center justify-center border-4 border-[#fdfaf6]">
-                    {step.id}
-                  </span>
+              <div
+                key={step.id}
+                className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group"
+              >
+                {/* Icon */}
+                <div className="flex items-center justify-center w-10 h-10 rounded-full bg-white border-2 border-[#4a3f35] shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2">
+                  <span className="text-[#4a3f35]">{step.icon}</span>
                 </div>
 
-                {/* Nội dung */}
-                <div className="space-y-3 px-2">
-                  <h3 className="text-xl font-black text-[#4a3f35]">{step.title}</h3>
-                  <p className="text-sm text-[#8b7355] leading-relaxed font-medium">{step.desc}</p>
-                </div>
-
-                {/* Arrow cho Mobile/Tablet (Ẩn trên LG) */}
-                {index !== STEPS.length - 1 && (
-                  <div className="mt-8 lg:hidden text-[#eddfc8]">
-                    <svg
-                      className="w-6 h-6 rotate-90"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M17 8l4 4m0 0l-4 4m4-4H3"
-                      />
-                    </svg>
+                {/* Card Content */}
+                <div className="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-6 bg-[#fcfaf7] border border-[#eddfc8]/30 rounded-2xl shadow-sm hover:shadow-lg transition-all">
+                  <div className="flex items-center justify-between mb-2">
+                    <h3 className="font-black text-[#4a3f35]">{step.title}</h3>
+                    <span className="text-[#eddfc8] font-black text-2xl opacity-50">
+                      0{index + 1}
+                    </span>
                   </div>
-                )}
+                  <p className="text-sm text-[#8b7355] leading-relaxed">{step.desc}</p>
+                </div>
               </div>
             ))}
           </div>

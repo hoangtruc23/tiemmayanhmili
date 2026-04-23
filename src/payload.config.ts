@@ -7,7 +7,13 @@ import sharp from 'sharp'
 
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
-import Cameras from '@/collections/Cameras'
+import Models from '@/collections/Models'
+import Brands from '@/collections/Brands'
+import Devices from '@/collections/Devices'
+import Bookings from '@/collections/Bookings'
+import Rentals from '@/collections/Rentals'
+import Customers from '@/collections/Customers'
+import Expenses from '@/collections/Expenses'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -18,8 +24,16 @@ export default buildConfig({
     importMap: {
       baseDir: path.resolve(dirname),
     },
+    meta: {
+      icons: [
+        {
+          rel: 'icon',
+          url: '/image/logo.png',
+        },
+      ],
+    },
   },
-  collections: [Users, Media, Cameras],
+  collections: [Users, Media, Brands, Models, Devices, Bookings, Rentals, Customers, Expenses],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
